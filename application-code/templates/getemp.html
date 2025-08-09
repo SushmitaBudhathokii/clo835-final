@@ -8,9 +8,12 @@
 
 		<h1 style="color: DodgerBlue">Employee Information</h1>
 
-		<body style="background: {{ color }};">
-
-			<form action="/fetchdata" autocomplete="on" method="POST">
+		<body style="background-image: url('/static/background.jpg'); background-size: cover; background-repeat: no-repeat; background-attachment: fixed;">
+			<header style="background-color: rgba(0,0,0,0.6); color: white; padding: 10px; text-align: center;">
+  <h1>{{ group_name }}</h1>
+  <p>{{ group_slogan }}</p>
+</header>
+<form action="/fetchdata" autocomplete="on" method="POST">
 
 				<h2 style="color: grey">Enter Employee ID</h2>
 

@@ -15,8 +15,8 @@ DATABASE = os.environ.get("DATABASE", "employees")
 DBPORT = int(os.environ.get("DBPORT", 3306))
 
 # Group info from ConfigMap
-GROUP_NAME = os.environ.get("GROUP_NAME", "CLO835 Team")
-GROUP_SLOGAN = os.environ.get("GROUP_SLOGAN", "Delivering Cloud Excellence")
+GROUP_NAME = os.environ.get("GROUP_NAME", "SUWAYS")
+GROUP_SLOGAN = os.environ.get("GROUP_SLOGAN", "EAT.SLEEP.REPEAT")
 
 # Background image info from ConfigMap
 BG_BUCKET = os.environ.get("BG_BUCKET")

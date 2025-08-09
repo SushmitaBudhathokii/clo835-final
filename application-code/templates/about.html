@@ -1,6 +1,10 @@
 <!doctype html>
 <title>Hello from Flask</title>
-<body style="background: {{ color }};"></body>
+<body style="background-image: url('/static/background.jpg'); background-size: cover; background-repeat: no-repeat; background-attachment: fixed;">
+<header style="background-color: rgba(0,0,0,0.6); color: white; padding: 10px; text-align: center;">
+  <h1>{{ group_name }}</h1>
+  <p>{{ group_slogan }}</p>
+</header>
 <div style="color: #e4e4e4;
     text-align:  center;
     height: 90px;

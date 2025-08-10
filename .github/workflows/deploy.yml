@@ -35,11 +35,11 @@ jobs:
       run: |
         echo "Running basic Flask app tests..."
         # Test if Python files have correct syntax
-        python3 -m py_compile app.py
+        python3 -m py_compile application-code/app.py
         echo "✅ Python syntax check passed"
         
         # Test if requirements.txt is valid
-        pip3 install -r requirements.txt --dry-run
+        pip3 install -r application-code/requirements.txt --dry-run
         echo "✅ Requirements check passed"
         
         # Test if Dockerfile builds

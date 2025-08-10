@@ -10,7 +10,7 @@ RUN apt-get update -y && \
     rm -rf /var/lib/apt/lists/*
 
 # Copy application code
-COPY . /app
+COPY requirements.txt .
 
 # Install Python dependencies
 RUN pip install --upgrade pip && \

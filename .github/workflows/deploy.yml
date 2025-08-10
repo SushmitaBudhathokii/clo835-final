@@ -43,7 +43,7 @@ jobs:
         echo "✅ Requirements check passed"
         
         # Test if Dockerfile builds
-        docker build -t test-build .
+        docker build -f application-code/Dockerfile -t test-build .
         echo "✅ Docker build test passed"
     
     - name: Build, tag, and push Flask app image to Amazon ECR

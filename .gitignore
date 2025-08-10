@@ -12,7 +12,7 @@ override.tf.json
 *_override.tf.json
 
 # Ignore CLI configuration files
-.terraform/
+terraform/.terraform/
 
 # Ignore any generated plan files
 *.tfplan

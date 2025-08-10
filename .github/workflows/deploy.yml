@@ -1,0 +1,63 @@
+name: Build and Push Flask App to ECR
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+env:
+  AWS_REGION: us-east-1
+  ECR_REPOSITORY: clo835-suways-webapp
+  AWS_ACCOUNT_ID: 334981590411
+
+jobs:
+  build-and-push:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    
+    - name: Configure AWS credentials
+      uses: aws-actions/configure-aws-credentials@v4
+      with:
+        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        aws-session-token: ${{ secrets.AWS_SESSION_TOKEN }}
+        aws-region: ${{ env.AWS_REGION }}
+    
+    - name: Login to Amazon ECR
+      id: login-ecr
+      uses: aws-actions/amazon-ecr-login@v2
+    
+    - name: Run basic tests
+      run: |
+        echo "Running basic Flask app tests..."
+        # Test if Python files have correct syntax
+        python3 -m py_compile app.py
+        echo "✅ Python syntax check passed"
+        
+        # Test if requirements.txt is valid
+        pip3 install -r requirements.txt --dry-run
+        echo "✅ Requirements check passed"
+        
+        # Test if Dockerfile builds
+        docker build -t test-build .
+        echo "✅ Docker build test passed"
+    
+    - name: Build, tag, and push Flask app image to Amazon ECR
+      env:
+        ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+        IMAGE_TAG: ${{ github.sha }}
+      run: |
+        echo "Building Flask application..."
+        docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
+        docker tag $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG $ECR_REGISTRY/$ECR_REPOSITORY:latest
+        
+        echo "Pushing images to ECR..."
+        docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
+        docker push $ECR_REGISTRY/$ECR_REPOSITORY:latest
+        
+        echo "✅ Successfully pushed Flask app to ECR"
+        echo "Image URI: $ECR_REGISTRY/$ECR_REPOSITORY:latest"

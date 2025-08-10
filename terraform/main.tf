@@ -3,26 +3,26 @@ provider "aws" {
 }
 
 resource "aws_ecr_repository" "webapp" {
-  name = "webapp"
+  name = "clo835-suways-webapp"
 }
 
 resource "aws_ecr_repository" "mysql" {
-  name = "mysql"
+  name = "clo835-suways-mysql"
 }
 
 resource "aws_key_pair" "assignment_key" {
-  key_name   = "suways-key"
-  public_key = file("/home/ec2-user/environment/clo835-final-lab/terraform/suways-key.pub")
+  key_name   = "suways"
+  public_key = file("/home/ec2-user/environment/terraform/suways.pub")
 }
 
 
 resource "aws_instance" "ec2" {
   ami           = "ami-0953476d60561c955" # Amazon Linux 2
   instance_type = "t2.micro"
-  key_name      = "suways-key" 
-  subnet_id     = "subnet-00f4ebd279793b1ac"         # Replace with default VPC public subnet ID
+  key_name      = "suways" 
+  subnet_id     = "subnet-0627a1208dd0ec003"         # Replace with default VPC public subnet ID
   vpc_security_group_ids = [aws_security_group.ec2_sg.id]
-  tags = { Name = "Assignment1-EC2" }
+  tags = { Name = "Final-Assignment-EC2" }
 }
 
 resource "aws_security_group" "ec2_sg" {

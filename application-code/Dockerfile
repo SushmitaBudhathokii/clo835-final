@@ -1,14 +1,26 @@
-FROM ubuntu:20.04
-RUN apt-get update -y
-COPY . /app
+# Use an official Python base image for smaller size & less setup hassle
+FROM python:3.9-slim
+
+# Set working directory inside container
 WORKDIR /app
-RUN set -xe \
-    && apt-get update -y \
-    && apt-get install -y python3-pip \
-    && apt-get install -y mysql-client \
-    && apt-get install -y iputils-ping
-RUN pip install --upgrade pip
-RUN pip install -r requirements.txt
-EXPOSE 8080
-ENTRYPOINT [ "python3" ]
-CMD [ "app.py" ]
+
+# Install required system packages for MySQL client and ping
+RUN apt-get update -y && \
+    apt-get install -y default-mysql-client iputils-ping && \
+    rm -rf /var/lib/apt/lists/*
+
+# Copy application code
+COPY . /app
+
+# Install Python dependencies
+RUN pip install --upgrade pip && \
+    pip install -r requirements.txt
+
+# Expose port 81 (per CLO835 require
+EXPOSE 81
+
+# Environment variable for background image URL (will be overridden by ConfigMap in K8s)
+ENV BG_IMAGE_URL=/static/background.jpg
+
+# Run Flask app
+CMD ["python", "app.py"]

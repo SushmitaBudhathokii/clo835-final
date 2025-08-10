@@ -8,7 +8,7 @@ import logging
 app = Flask(__name__)
 
 # DB Config from environment (Secrets in K8s)
-DBHOST = os.environ.get("DBHOST", "localhost")
+DBHOST = os.environ.get("DBHOST", "mysql-db")
 DBUSER = os.environ.get("DBUSER", "root")
 DBPWD = os.environ.get("DBPWD", "password")
 DATABASE = os.environ.get("DATABASE", "employees")
@@ -50,14 +50,29 @@ def download_background():
     except Exception as e:
         app.logger.error(f"Failed to download background image: {e}")
 
-# MySQL Connection
-db_conn = connections.Connection(
-    host=DBHOST,
-    port=DBPORT,
-    user=DBUSER,
-    password=DBPWD,
-    db=DATABASE
-)
+# # MySQL Connection
+# db_conn = connections.Connection(
+#     host=DBHOST,
+#     port=DBPORT,
+#     user=DBUSER,
+#     password=DBPWD,
+#     db=DATABASE
+# )
+
+# MySQL Connection - Make it optional for local testing
+db_conn = None
+try:
+    db_conn = connections.Connection(
+        host=DBHOST,
+        port=DBPORT,
+        user=DBUSER,
+        password=DBPWD,
+        db=DATABASE
+    )
+    app.logger.info("Successfully connected to MySQL database")
+except Exception as e:
+    app.logger.warning(f"Could not connect to MySQL database: {e}")
+    app.logger.warning("Running in local test mode without database")
 
 @app.route("/", methods=['GET', 'POST'])
 def home():

@@ -10,7 +10,7 @@ app = Flask(__name__)
 # DB Config from environment (Secrets in K8s)
 DBHOST = os.environ.get("DBHOST", "mysql-db")
 DBUSER = os.environ.get("DBUSER", "root")
-DBPWD = os.environ.get("DBPWD", "password")
+DBPWD = os.environ.get("DBPWD", "mypassword123")
 DATABASE = os.environ.get("DATABASE", "employees")
 DBPORT = int(os.environ.get("DBPORT", 3306))
 
@@ -28,7 +28,7 @@ AWS_SECRET_ACCESS_KEY = os.environ.get("AWS_SECRET_ACCESS_KEY")
 AWS_REGION = os.environ.get("AWS_REGION", "us-east-1")
 
 # Static file path
-BG_LOCAL_PATH = os.path.join("static", "background.jpg")
+BG_LOCAL_PATH = os.path.join("application-code/static", "background.jpg")
 
 # Logging setup
 logging.basicConfig(level=logging.INFO)
@@ -48,31 +48,32 @@ def download_background():
         s3_client.download_file(BG_BUCKET, BG_KEY, BG_LOCAL_PATH)
         app.logger.info(f"Background image downloaded from s3://{BG_BUCKET}/{BG_KEY}")
     except Exception as e:
-        app.logger.error(f"Failed to download background image: {e}")
+        app.logger.error(f"Faileddddd to download background image: {e}")
 
 # # MySQL Connection
-# db_conn = connections.Connection(
-#     host=DBHOST,
-#     port=DBPORT,
-#     user=DBUSER,
-#     password=DBPWD,
-#     db=DATABASE
-# )
+db_conn = connections.Connection(
+    host=DBHOST,
+    port=DBPORT,
+    user=DBUSER,
+    password=DBPWD,
+    db=DATABASE,
+    charset='utf8mb4'
+)
 
 # MySQL Connection - Make it optional for local testing
-db_conn = None
-try:
-    db_conn = connections.Connection(
-        host=DBHOST,
-        port=DBPORT,
-        user=DBUSER,
-        password=DBPWD,
-        db=DATABASE
-    )
-    app.logger.info("Successfully connected to MySQL database")
-except Exception as e:
-    app.logger.warning(f"Could not connect to MySQL database: {e}")
-    app.logger.warning("Running in local test mode without database")
+# db_conn = None
+# try:
+#     db_conn = connections.Connection(
+#         host=DBHOST,
+#         port=DBPORT,
+#         user=DBUSER,
+#         password=DBPWD,
+#         db=DATABASE
+#     )
+#     app.logger.info("Successfully connected to MySQL database")
+# except Exception as e:
+#     app.logger.warning(f"Could not connect to MySQL database: {e}")
+#     app.logger.warning("Running in local test mode without database")
 
 @app.route("/", methods=['GET', 'POST'])
 def home():

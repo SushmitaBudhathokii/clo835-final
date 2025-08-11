@@ -28,7 +28,7 @@ AWS_SECRET_ACCESS_KEY = os.environ.get("AWS_SECRET_ACCESS_KEY")
 AWS_REGION = os.environ.get("AWS_REGION", "us-east-1")
 
 # Static file path
-BG_LOCAL_PATH = os.path.join("application-code/static", "background.jpg")
+BG_LOCAL_PATH = os.path.join("application-code","static", "background.jpg")
 
 # Logging setup
 logging.basicConfig(level=logging.INFO)
@@ -48,7 +48,7 @@ def download_background():
         s3_client.download_file(BG_BUCKET, BG_KEY, BG_LOCAL_PATH)
         app.logger.info(f"Background image downloaded from s3://{BG_BUCKET}/{BG_KEY}")
     except Exception as e:
-        app.logger.error(f"Faileddddd to download background image: {e}")
+        app.logger.error(f"Failed to download background image: {e}")
 
 # # MySQL Connection
 db_conn = connections.Connection(

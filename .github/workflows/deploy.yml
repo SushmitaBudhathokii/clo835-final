@@ -32,21 +32,20 @@ jobs:
       uses: aws-actions/amazon-ecr-login@v2
     
     - name: Run basic tests
+      working-directory: ./application-code
       run: |
         echo "Running basic Flask app tests..."
-        # Test if Python files have correct syntax
-        python3 -m py_compile application-code/app.py
+        python3 -m py_compile app.py
         echo "✅ Python syntax check passed"
         
-        # Test if requirements.txt is valid
-        pip3 install -r application-code/requirements.txt --dry-run
+        pip3 install -r requirements.txt --dry-run
         echo "✅ Requirements check passed"
         
-        # Test if Dockerfile builds
-        docker build -f application-code/Dockerfile -t test-build .
+        docker build -t test-build .
         echo "✅ Docker build test passed"
     
     - name: Build, tag, and push Flask app image to Amazon ECR
+      working-directory: ./application-code
       env:
         ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
         IMAGE_TAG: ${{ github.sha }}

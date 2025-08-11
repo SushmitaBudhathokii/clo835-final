@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: flask-config
+  namespace: fp
+data:
+  GROUP_NAME: "SUWAYS" 
+  GROUP_SLOGAN: "EAT.SLEEP.REPEAT"
+  BG_BUCKET: "suways-bucket" 
+  BG_KEY: "background.jpg"  
+  AWS_REGION: "us-east-1"
+  DATABASE: "employees"
+  DBHOST: "mysql-service"
+  DBPORT: "3306"

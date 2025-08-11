@@ -1,0 +1,77 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: mysql-init-config
+  namespace: fp
+data:
+  init.sql: |
+    CREATE DATABASE IF NOT EXISTS employees;
+    USE employees;
+    CREATE TABLE IF NOT EXISTS employee (
+        emp_id INT AUTO_INCREMENT PRIMARY KEY,
+        first_name VARCHAR(100) NOT NULL,
+        last_name VARCHAR(100) NOT NULL,
+        primary_skill VARCHAR(100),
+        location VARCHAR(100)
+    );
+---
+# MySQL Deployment
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mysql-deployment
+  namespace: fp
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: mysql
+  template:
+    metadata:
+      labels:
+        app: mysql
+    spec:
+      serviceAccountName: clo835-sa
+      containers:
+      - name: mysql
+        image: mysql:8.0
+        ports:
+        - containerPort: 3306
+        env:
+        - name: MYSQL_ROOT_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: mysql-secret
+              key: MYSQL_ROOT_PASSWORD
+        - name: MYSQL_DATABASE
+          valueFrom:
+            configMapKeyRef:
+              name: flask-config
+              key: DATABASE
+        volumeMounts:
+        - name: mysql-persistent-storage
+          mountPath: /var/lib/mysql
+        - name: mysql-initdb
+          mountPath: /docker-entrypoint-initdb.d
+      volumes:
+      - name: mysql-persistent-storage
+        persistentVolumeClaim:
+          claimName: mysql-pvc
+      - name: mysql-initdb
+        configMap:
+          name: mysql-init-config
+---
+# MySQL Service
+apiVersion: v1
+kind: Service
+metadata:
+  name: mysql-service
+  namespace: fp
+spec:
+  selector:
+    app: mysql
+  ports:
+    - protocol: TCP
+      port: 3306
+      targetPort: 3306
+  type: ClusterIP

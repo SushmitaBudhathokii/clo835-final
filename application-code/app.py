@@ -36,7 +36,7 @@ logging.basicConfig(level=logging.INFO)
 
 # Download background image from private S3
 def download_background():
-    if not background_url or not BG_KEY:
+    if not background_url:
         app.logger.warning("Background image S3 details are not set.")
         return
     try:
@@ -78,7 +78,7 @@ db_conn = connections.Connection(
 
 @app.route("/", methods=['GET', 'POST'])
 def home():
-    return render_template('addemp.html', group_name=GROUP_NAME, group_slogan=GROUP_SLOGAN)
+    return render_template('addemp.html', group_name=GROUP_NAME, group_slogan=GROUP_SLOGAN, background_url="/static/background.jpg")
 
 @app.route("/about", methods=['GET','POST'])
 def about():

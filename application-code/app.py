@@ -79,7 +79,7 @@ db_conn = connections.Connection(
 
 @app.route("/", methods=['GET', 'POST'])
 def home():
-    return render_template('addemp.html', group_name=GROUP_NAME, group_slogan=GROUP_SLOGAN, background_url="/static/background.jpg")
+    return render_template('addemp.html', group_name=GROUP_NAME, group_slogan=GROUP_SLOGAN, background_url=background_url)
 
 @app.route("/about", methods=['GET','POST'])
 def about():

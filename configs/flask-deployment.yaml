@@ -65,6 +65,11 @@ spec:
             configMapKeyRef:
               name: flask-config
               key: BG_BUCKET
+        - name: background_url
+          valueFrom:
+            configMapKeyRef:
+              name: flask-config
+              key: background_url
         - name: BG_KEY
           valueFrom:
             configMapKeyRef:

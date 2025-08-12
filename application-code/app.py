@@ -19,6 +19,7 @@ GROUP_NAME = os.environ.get("GROUP_NAME", "SUWAYS")
 GROUP_SLOGAN = os.environ.get("GROUP_SLOGAN", "EAT.SLEEP.REPEAT")
 
 # Background image info from ConfigMap
+background_url=os.environ.get("background_url")
 BG_BUCKET = os.environ.get("BG_BUCKET")
 BG_KEY = os.environ.get("BG_KEY")  # e.g., "background.jpg"
 
@@ -35,7 +36,7 @@ logging.basicConfig(level=logging.INFO)
 
 # Download background image from private S3
 def download_background():
-    if not BG_BUCKET or not BG_KEY:
+    if not background_url or not BG_KEY:
         app.logger.warning("Background image S3 details are not set.")
         return
     try:

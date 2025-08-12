@@ -91,8 +91,3 @@ spec:
             secretKeyRef:
               name: aws-secret
               key: AWS_SECRET_ACCESS_KEY
-        - name: BACKGROUND_IMAGE_URL
-          valueFrom:
-            configMapKeyRef:
-              name: flask-config
-              key: BACKGROUND_IMAGE_URL

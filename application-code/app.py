@@ -20,6 +20,7 @@ GROUP_SLOGAN = os.environ.get("GROUP_SLOGAN", "EAT.SLEEP.REPEAT")
 
 # Background image info from ConfigMap
 background_url=os.environ.get("background_url")
+background_url2=os.environ.get("background_url2")
 BG_BUCKET = os.environ.get("BG_BUCKET")
 BG_KEY = os.environ.get("BG_KEY")  # e.g., "background.jpg"
 

@@ -12,5 +12,5 @@ data:
   DATABASE: "employees"
   DBHOST: "mysql-service"
   DBPORT: "3306"
-  background_url: "s3://suways-bucket/background.jpg"
+  background_url: "s3://suways-bucket/background2.jpg"
   background_url2: "s3://suways-bucket/background2.jpg"

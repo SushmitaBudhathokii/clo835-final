@@ -53,14 +53,14 @@ def download_background():
         app.logger.error(f"Failed to download background image: {e}")
 
 # # MySQL Connection
-# db_conn = connections.Connection(
-#     host=DBHOST,
-#     port=DBPORT,
-#     user=DBUSER,
-#     password=DBPWD,
-#     db=DATABASE,
-#     charset='utf8mb4'
-# )
+db_conn = connections.Connection(
+    host=DBHOST,
+    port=DBPORT,
+    user=DBUSER,
+    password=DBPWD,
+    db=DATABASE,
+    charset='utf8mb4'
+)
 
 # MySQL Connection - Make it optional for local testing
 # db_conn = None

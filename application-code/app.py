@@ -53,14 +53,14 @@ def download_background():
         app.logger.error(f"Failed to download background image: {e}")
 
 # # MySQL Connection
-db_conn = connections.Connection(
-    host=DBHOST,
-    port=DBPORT,
-    user=DBUSER,
-    password=DBPWD,
-    db=DATABASE,
-    charset='utf8mb4'
-)
+# db_conn = connections.Connection(
+#     host=DBHOST,
+#     port=DBPORT,
+#     user=DBUSER,
+#     password=DBPWD,
+#     db=DATABASE,
+#     charset='utf8mb4'
+# )
 
 # MySQL Connection - Make it optional for local testing
 # db_conn = None
@@ -79,7 +79,8 @@ db_conn = connections.Connection(
 
 @app.route("/", methods=['GET', 'POST'])
 def home():
-    return render_template('addemp.html', group_name=GROUP_NAME, group_slogan=GROUP_SLOGAN, background_url=background_url)
+    return render_template('addemp.html', group_name=GROUP_NAME, group_slogan=GROUP_SLOGAN, background_url="/static/background.jpg")
+    return render_template('addemp.html', group_name=GROUP_NAME, group_slogan=GROUP_SLOGAN, background_url="/static/background2.jpg")
 
 @app.route("/about", methods=['GET','POST'])
 def about():

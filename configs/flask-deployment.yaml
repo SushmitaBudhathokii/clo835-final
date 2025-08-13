@@ -1,0 +1,93 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: flask-deployment
+  namespace: fp
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: flask-app
+  template:
+    metadata:
+      labels:
+        app: flask-app
+    spec:
+      serviceAccountName: clo835-sa
+      imagePullSecrets:
+      - name: ecr-secret
+      containers:
+      - name: flask-app
+        image: 334981590411.dkr.ecr.us-east-1.amazonaws.com/clo835-suways-webapp:latest
+        ports:
+        - containerPort: 81
+        env:
+        # Database configuration
+        - name: DBHOST
+          valueFrom:
+            configMapKeyRef:
+              name: flask-config
+              key: DBHOST
+        - name: DBUSER
+          valueFrom:
+            secretKeyRef:
+              name: mysql-secret
+              key: DBUSER
+        - name: DBPWD
+          valueFrom:
+            secretKeyRef:
+              name: mysql-secret
+              key: DBPWD
+        - name: DATABASE
+          valueFrom:
+            configMapKeyRef:
+              name: flask-config
+              key: DATABASE
+        - name: DBPORT
+          valueFrom:
+            configMapKeyRef:
+              name: flask-config
+              key: DBPORT
+        # Application configuration from ConfigMap
+        - name: GROUP_NAME
+          valueFrom:
+            configMapKeyRef:
+              name: flask-config
+              key: GROUP_NAME
+        - name: GROUP_SLOGAN
+          valueFrom:
+            configMapKeyRef:
+              name: flask-config
+              key: GROUP_SLOGAN
+        # S3 background image configuration
+        - name: BG_BUCKET
+          valueFrom:
+            configMapKeyRef:
+              name: flask-config
+              key: BG_BUCKET
+        - name: background_url
+          valueFrom:
+            configMapKeyRef:
+              name: flask-config
+              key: background_url
+        - name: BG_KEY
+          valueFrom:
+            configMapKeyRef:
+              name: flask-config
+              key: BG_KEY
+        - name: AWS_REGION
+          valueFrom:
+            configMapKeyRef:
+              name: flask-config
+              key: AWS_REGION
+        # AWS credentials from Secret
+        - name: AWS_ACCESS_KEY_ID
+          valueFrom:
+            secretKeyRef:
+              name: aws-secret
+              key: AWS_ACCESS_KEY_ID
+        - name: AWS_SECRET_ACCESS_KEY
+          valueFrom:
+            secretKeyRef:
+              name: aws-secret
+              key: AWS_SECRET_ACCESS_KEY

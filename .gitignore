@@ -1,0 +1,53 @@
+# Python
+_pycache_/
+*.pyc
+*.pyo
+*.pyd
+.Python
+*.so
+.venv/
+venv/
+env/
+ENV/
+
+# Flask
+instance/
+.env
+.flaskenv
+
+# AWS
+.aws/
+
+# Local testing
+app.py.backup
+*.local
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Docker
+.dockerignore
+
+# Logs
+*.log
+
+# Terraform
+**/.terraform/
+**/.terraform.lock.hcl
+*.tfstate
+.tfstate.
+*.tfvars
+*.tfplan
+crash.log
+crash.*.log
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Temporary files
+*.tmp
+*.temp
